@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import type { Component, DefineComponent } from 'vue';
 
 import type {
@@ -66,6 +67,7 @@ async function generateAccessible(
   }
 
   // 生成菜单
+  // @ts-ignore
   const accessibleMenus = generateMenus(accessibleRoutes, options.router);
 
   return { accessibleMenus, accessibleRoutes };
@@ -85,11 +87,14 @@ async function generateRoutes(
   let resultRoutes: RouteRecordRaw[] = routes;
   switch (mode) {
     case 'backend': {
+      // @ts-ignore
       resultRoutes = await generateRoutesByBackend(options);
       break;
     }
     case 'frontend': {
+      // @ts-ignore
       resultRoutes = await generateRoutesByFrontend(
+        // @ts-ignore
         routes,
         roles || [],
         forbiddenComponent,
@@ -98,10 +103,11 @@ async function generateRoutes(
     }
     case 'mixed': {
       const [frontend_resultRoutes, backend_resultRoutes] = await Promise.all([
+        // @ts-ignore
         generateRoutesByFrontend(routes, roles || [], forbiddenComponent),
         generateRoutesByBackend(options),
       ]);
-
+      // @ts-ignore
       resultRoutes = [...frontend_resultRoutes, ...backend_resultRoutes];
       break;
     }

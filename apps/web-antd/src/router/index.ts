@@ -28,7 +28,8 @@ const router = createRouter({
   // 是否应该禁止尾部斜杠。
   // strict: true,
 });
-
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 const resetRoutes = () => resetStaticRoutes(router, routes);
 
 // 创建路由守卫

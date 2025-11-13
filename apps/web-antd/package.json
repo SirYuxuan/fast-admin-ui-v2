@@ -1,7 +1,7 @@
 {
-  "name": "@vben/web-antd",
+  "name": "fast-admin",
   "version": "5.5.9",
-  "homepage": "https://vben.pro",
+  "homepage": "https://fast-admin.pro",
   "bugs": "https://github.com/vbenjs/vue-vben-admin/issues",
   "repository": {
     "type": "git",
@@ -26,6 +26,7 @@
     "#/*": "./src/*"
   },
   "dependencies": {
+    "@vben-core/menu-ui": "workspace:*",
     "@vben/access": "workspace:*",
     "@vben/common-ui": "workspace:*",
     "@vben/constants": "workspace:*",

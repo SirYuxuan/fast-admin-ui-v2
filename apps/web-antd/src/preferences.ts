@@ -9,5 +9,26 @@ export const overridesPreferences = defineOverridesPreferences({
   // overrides
   app: {
     name: import.meta.env.VITE_APP_TITLE,
+    preferencesButtonPosition: 'header',
+    // 鉴权模式--后端控制路由
+    accessMode: 'backend',
+    enableRefreshToken: false,
+    defaultHomePath: '/workspace',
+  },
+  theme: {
+    mode: 'light',
+  },
+  sidebar: {
+    collapsedButton: true,
+    fixedButton: false,
+  },
+  widget: {
+    globalSearch: false,
+    languageToggle: false,
+    lockScreen: false,
+    notification: false,
+    refresh: false,
+    sidebarToggle: false,
+    themeToggle: false,
   },
 });

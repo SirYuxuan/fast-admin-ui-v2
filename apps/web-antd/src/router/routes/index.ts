@@ -13,6 +13,8 @@ const dynamicRouteFiles = import.meta.glob('./modules/**/*.ts', {
 // const staticRouteFiles = import.meta.glob('./static/**/*.ts', { eager: true });
 
 /** 动态路由 */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 const dynamicRoutes: RouteRecordRaw[] = mergeRouteModules(dynamicRouteFiles);
 
 /** 外部路由列表，访问这些页面可以不需要Layout，可能用于内嵌在别的系统(不会显示在菜单中) */
@@ -34,4 +36,13 @@ const coreRouteNames = traverseTreeValues(coreRoutes, (route) => route.name);
 
 /** 有权限校验的路由列表，包含动态路由和静态路由 */
 const accessRoutes = [...dynamicRoutes, ...staticRoutes];
-export { accessRoutes, coreRouteNames, routes };
+
+const componentKeys: string[] = Object.keys(
+  import.meta.glob('../../views/**/*.vue'),
+)
+  .filter((item) => !item.includes('/modules/'))
+  .map((v) => {
+    const path = v.replace('../../views/', '/');
+    return path.endsWith('.vue') ? path.slice(0, -4) : path;
+  });
+export { accessRoutes, componentKeys, coreRouteNames, routes };
