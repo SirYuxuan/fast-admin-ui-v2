@@ -101,7 +101,7 @@ async function isMenuNameExists(
   name: string,
   id?: SystemMenuApi.SystemMenu['id'],
 ) {
-  return requestClient.get<boolean>('/system/menu/name-exists', {
+  return requestClient.get<boolean>('/sysMenu/nameExists', {
     params: { id, name },
   });
 }
@@ -110,7 +110,7 @@ async function isMenuPathExists(
   path: string,
   id?: SystemMenuApi.SystemMenu['id'],
 ) {
-  return requestClient.get<boolean>('/system/menu/path-exists', {
+  return requestClient.get<boolean>('/sysMenu/pathExists', {
     params: { id, path },
   });
 }
@@ -122,7 +122,7 @@ async function isMenuPathExists(
 async function createMenu(
   data: Omit<SystemMenuApi.SystemMenu, 'children' | 'id'>,
 ) {
-  return requestClient.post('/system/menu', data);
+  return requestClient.post('/sysMenu', data);
 }
 
 /**
@@ -135,7 +135,7 @@ async function updateMenu(
   id: string,
   data: Omit<SystemMenuApi.SystemMenu, 'children' | 'id'>,
 ) {
-  return requestClient.put(`/system/menu/${id}`, data);
+  return requestClient.put(`/sysMenu/${id}`, data);
 }
 
 /**
