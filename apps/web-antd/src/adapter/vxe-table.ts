@@ -5,6 +5,7 @@ import type { ComponentType } from './component';
 
 import { h } from 'vue';
 
+import { useAccess } from '@vben/access';
 import { IconifyIcon } from '@vben/icons';
 import { $te } from '@vben/locales';
 import {
@@ -19,6 +20,8 @@ import { Button, Image, Popconfirm, Switch, Tag } from 'ant-design-vue';
 import { $t } from '#/locales';
 
 import { useVbenForm } from './form';
+
+const { hasAccessByCodes } = useAccess();
 
 setupVbenVxeTable({
   configVxeTable: (vxeUI) => {
@@ -87,6 +90,8 @@ setupVbenVxeTable({
         const tagOptions = options ?? [
           { color: 'success', label: $t('common.enabled'), value: 1 },
           { color: 'error', label: $t('common.disabled'), value: 0 },
+          { color: 'success', label: $t('common.enabled'), value: true },
+          { color: 'error', label: $t('common.disabled'), value: false },
         ];
         const tagItem = tagOptions.find((item) => item.value === value);
         return h(
@@ -184,6 +189,10 @@ setupVbenVxeTable({
           .filter((opt) => opt.show !== false);
 
         function renderBtn(opt: Recordable<any>, listen = true) {
+          // 如果有权限码，需要校验权限，没有权限则不渲染按钮
+          if (opt.authCode && !hasAccessByCodes([opt.authCode])) {
+            return null;
+          }
           return h(
             Button,
             {
@@ -214,6 +223,10 @@ setupVbenVxeTable({
         }
 
         function renderConfirm(opt: Recordable<any>) {
+          // 如果有权限码，需要校验权限，没有权限则不渲染按钮
+          if (opt.authCode && !hasAccessByCodes([opt.authCode])) {
+            return null;
+          }
           let viewportWrapper: HTMLElement | null = null;
           return h(
             Popconfirm,
@@ -263,9 +276,11 @@ setupVbenVxeTable({
           );
         }
 
-        const btns = operations.map((opt) =>
-          opt.code === 'delete' ? renderConfirm(opt) : renderBtn(opt),
-        );
+        const btns = operations
+          .map((opt) =>
+            opt.code === 'delete' ? renderConfirm(opt) : renderBtn(opt),
+          )
+          .filter((btn) => btn !== null);
         return h(
           'div',
           {

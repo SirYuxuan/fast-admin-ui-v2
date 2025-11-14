@@ -9,16 +9,13 @@ import { Button } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
 import { createDept, updateDept } from '#/api/system/dept';
-import { $t } from '#/locales';
 
 import { useSchema } from '../data';
 
 const emit = defineEmits(['success']);
 const formData = ref<SystemDeptApi.SystemDept>();
 const getTitle = computed(() => {
-  return formData.value?.id
-    ? $t('ui.actionTitle.edit', [$t('system.dept.name')])
-    : $t('ui.actionTitle.create', [$t('system.dept.name')]);
+  return formData.value?.id ? '编辑部门' : '新增部门';
 });
 
 const [Form, formApi] = useVbenForm({
@@ -40,7 +37,7 @@ const [Modal, modalApi] = useVbenModal({
       const data = await formApi.getValues();
       try {
         await (formData.value?.id
-          ? updateDept(formData.value.id, data)
+          ? updateDept({ ...data, id: formData.value.id })
           : createDept(data));
         modalApi.close();
         emit('success');
@@ -69,9 +66,7 @@ const [Modal, modalApi] = useVbenModal({
     <Form class="mx-4" />
     <template #prepend-footer>
       <div class="flex-auto">
-        <Button type="primary" danger @click="resetForm">
-          {{ $t('common.reset') }}
-        </Button>
+        <Button type="primary" danger @click="resetForm"> 重置 </Button>
       </div>
     </template>
   </Modal>

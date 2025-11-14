@@ -5,6 +5,7 @@ import type {
 } from '#/adapter/vxe-table';
 import type { SystemDeptApi } from '#/api/system/dept';
 
+import { AccessControl } from '@vben/access';
 import { Page, useVbenModal } from '@vben/common-ui';
 import { Plus } from '@vben/icons';
 
@@ -12,7 +13,6 @@ import { Button, message } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { deleteDept, getDeptList } from '#/api/system/dept';
-import { $t } from '#/locales';
 
 import { useColumns } from './data';
 import Form from './modules/form.vue';
@@ -51,14 +51,14 @@ function onCreate() {
  */
 function onDelete(row: SystemDeptApi.SystemDept) {
   const hideLoading = message.loading({
-    content: $t('ui.actionMessage.deleting', [row.name]),
+    content: `正在删除${row.name}...`,
     duration: 0,
     key: 'action_process_msg',
   });
   deleteDept(row.id)
     .then(() => {
       message.success({
-        content: $t('ui.actionMessage.deleteSuccess', [row.name]),
+        content: `删除${row.name}成功`,
         key: 'action_process_msg',
       });
       refreshGrid();
@@ -133,10 +133,12 @@ function refreshGrid() {
     <FormModal @success="refreshGrid" />
     <Grid table-title="部门列表">
       <template #toolbar-tools>
-        <Button type="primary" @click="onCreate">
-          <Plus class="size-5" />
-          {{ $t('ui.actionTitle.create', [$t('system.dept.name')]) }}
-        </Button>
+        <AccessControl :codes="['system:dept:add']">
+          <Button type="primary" @click="onCreate">
+            <Plus class="size-5" />
+            新增部门
+          </Button>
+        </AccessControl>
       </template>
     </Grid>
   </Page>

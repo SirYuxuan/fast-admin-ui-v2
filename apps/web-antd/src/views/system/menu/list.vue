@@ -4,6 +4,7 @@ import type {
   VxeTableGridOptions,
 } from '#/adapter/vxe-table';
 
+import { AccessControl } from '@vben/access';
 import { Page, useVbenDrawer } from '@vben/common-ui';
 import { IconifyIcon, Plus } from '@vben/icons';
 
@@ -115,10 +116,12 @@ function onDelete(row: SystemMenuApi.SystemMenu) {
     <FormDrawer @success="onRefresh" />
     <Grid>
       <template #toolbar-tools>
-        <Button type="primary" @click="onCreate">
-          <Plus class="size-5" />
-          新增菜单
-        </Button>
+        <AccessControl :codes="['system:menu:add']">
+          <Button type="primary" @click="onCreate">
+            <Plus class="size-5" />
+            新增菜单
+          </Button>
+        </AccessControl>
       </template>
       <template #title="{ row }">
         <div class="flex w-full items-center gap-1">

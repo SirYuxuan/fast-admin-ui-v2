@@ -93,9 +93,25 @@ export function useColumns(
           {
             code: 'append',
             text: '新增下级',
+            authCode: 'system:menu:add',
           },
-          'edit', // 默认的编辑按钮
-          'delete', // 默认的删除按钮
+          {
+            code: 'edit', // 默认的编辑按钮
+            authCode: 'system:menu:edit',
+            disabled: (row: SystemMenuApi.SystemMenu) => {
+              return row.meta?.title === '工作台';
+            },
+          },
+          {
+            code: 'delete', // 默认的删除按钮
+            authCode: 'system:menu:delete',
+            disabled: (row: SystemMenuApi.SystemMenu) => {
+              return (
+                !!(row.children && row.children.length > 0) ||
+                row.meta?.title === '工作台'
+              );
+            },
+          },
         ],
       },
       field: 'operation',

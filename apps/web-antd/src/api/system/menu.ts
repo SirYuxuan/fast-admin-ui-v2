@@ -132,10 +132,9 @@ async function createMenu(
  * @param data 菜单数据
  */
 async function updateMenu(
-  id: string,
   data: Omit<SystemMenuApi.SystemMenu, 'children' | 'id'>,
 ) {
-  return requestClient.put(`/sysMenu/${id}`, data);
+  return requestClient.put(`/sysMenu`, data);
 }
 
 /**
