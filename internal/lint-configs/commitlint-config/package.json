@@ -1,7 +1,6 @@
 {
   "name": "@vben/commitlint-config",
   "version": "5.5.9",
-  "private": true,
   "homepage": "https://github.com/vbenjs/vue-vben-admin",
   "bugs": "https://github.com/vbenjs/vue-vben-admin/issues",
   "repository": {
@@ -23,11 +22,11 @@
     }
   },
   "dependencies": {
-    "@commitlint/cli": "catalog:",
-    "@commitlint/config-conventional": "catalog:",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@vben/node-utils": "workspace:*",
-    "commitlint-plugin-function-rules": "catalog:",
-    "cz-git": "catalog:",
-    "czg": "catalog:"
+    "commitlint-plugin-function-rules": "^4.0.2",
+    "cz-git": "^1.11.2",
+    "czg": "^1.11.1"
   }
 }

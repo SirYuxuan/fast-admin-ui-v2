@@ -1,7 +1,6 @@
 {
   "name": "@vben/prettier-config",
   "version": "5.0.0",
-  "private": true,
   "homepage": "https://github.com/vbenjs/vue-vben-admin",
   "bugs": "https://github.com/vbenjs/vue-vben-admin/issues",
   "repository": {
@@ -22,7 +21,7 @@
     }
   },
   "dependencies": {
-    "prettier": "catalog:",
-    "prettier-plugin-tailwindcss": "catalog:"
+    "prettier": "^3.6.2",
+    "prettier-plugin-tailwindcss": "^0.6.13"
   }
 }
