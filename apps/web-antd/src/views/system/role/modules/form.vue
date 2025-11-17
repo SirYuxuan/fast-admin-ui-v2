@@ -15,7 +15,6 @@ import { Spin } from 'ant-design-vue';
 import { useVbenForm } from '#/adapter/form';
 import { getMenuList } from '#/api/system/menu';
 import { createRole, updateRole } from '#/api/system/role';
-import { $t } from '#/locales';
 
 import { useFormSchema } from '../data';
 
@@ -38,7 +37,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
     if (!valid) return;
     const values = await formApi.getValues();
     drawerApi.lock();
-    (id.value ? updateRole(id.value, values) : createRole(values))
+    (id.value ? updateRole({ id: id.value, ...values }) : createRole(values))
       .then(() => {
         emits('success');
         drawerApi.close();
@@ -83,9 +82,7 @@ async function loadPermissions() {
 }
 
 const getDrawerTitle = computed(() => {
-  return formData.value?.id
-    ? $t('common.edit', $t('system.role.name'))
-    : $t('common.create', $t('system.role.name'));
+  return formData.value?.id ? '编辑角色' : '新增角色';
 });
 
 function getNodeClass(node: Recordable<any>) {
@@ -115,7 +112,7 @@ function getNodeClass(node: Recordable<any>) {
           >
             <template #node="{ value }">
               <IconifyIcon v-if="value.meta.icon" :icon="value.meta.icon" />
-              {{ $t(value.meta.title) }}
+              {{ value.meta.title }}
             </template>
           </Tree>
         </Spin>

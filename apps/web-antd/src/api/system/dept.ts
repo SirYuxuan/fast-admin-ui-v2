@@ -10,12 +10,12 @@ export namespace SystemDeptApi {
     status: 0 | 1;
   }
 }
-
+const BaseUrl = '/system/dept';
 /**
  * 获取部门列表数据
  */
 async function getDeptList() {
-  return requestClient.get<Array<SystemDeptApi.SystemDept>>('/sysDept');
+  return requestClient.get<Array<SystemDeptApi.SystemDept>>(BaseUrl);
 }
 
 /**
@@ -25,7 +25,7 @@ async function getDeptList() {
 async function createDept(
   data: Omit<SystemDeptApi.SystemDept, 'children' | 'id'>,
 ) {
-  return requestClient.post('/sysDept', data);
+  return requestClient.post(BaseUrl, data);
 }
 
 /**
@@ -37,7 +37,7 @@ async function createDept(
 async function updateDept(
   data: Omit<SystemDeptApi.SystemDept, 'children' | 'id'>,
 ) {
-  return requestClient.put(`/sysDept`, data);
+  return requestClient.put(BaseUrl, data);
 }
 
 /**
@@ -45,7 +45,7 @@ async function updateDept(
  * @param id 部门 ID
  */
 async function deleteDept(id: string) {
-  return requestClient.delete(`/sysDept/${id}`);
+  return requestClient.delete(`${BaseUrl}/${id}`);
 }
 
 export { createDept, deleteDept, getDeptList, updateDept };
