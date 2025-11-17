@@ -7,7 +7,6 @@ import type {
 } from '#/adapter/vxe-table';
 import type { SystemRoleApi } from '#/api';
 
-import { AccessControl } from '@vben/access';
 import { Page, useVbenDrawer } from '@vben/common-ui';
 import { Plus } from '@vben/icons';
 
@@ -154,12 +153,10 @@ function onCreate() {
     <FormDrawer @success="onRefresh" />
     <Grid table-title="角色列表">
       <template #toolbar-tools>
-        <AccessControl :code="['system:role:add']">
-          <Button type="primary" @click="onCreate">
-            <Plus class="size-5" />
-            新增角色
-          </Button>
-        </AccessControl>
+        <Button type="primary" @click="onCreate">
+          <Plus class="size-5" />
+          新增角色
+        </Button>
       </template>
     </Grid>
   </Page>
