@@ -29,6 +29,10 @@ export interface ModelType {
   [key: string]: any;
   /** 用户ID */
   id: string;
+  /** 部门ID */
+  deptId: string;
+  /** 部门名称 */
+  deptName: string;
   /** 用户名 */
   username: string;
   /** 邮箱 */

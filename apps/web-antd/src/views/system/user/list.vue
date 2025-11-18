@@ -6,13 +6,15 @@ import type {
   VxeTableGridOptions,
 } from '#/adapter/vxe-table';
 
-import { Page, useVbenModal } from '@vben/common-ui';
+import { onMounted, ref } from 'vue';
+
+import { ColPage, Tree, useVbenModal } from '@vben/common-ui';
 import { Plus } from '@vben/icons';
 
 import { Button, message } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { deleteRole } from '#/api';
+import { crudHelper, deleteRole } from '#/api';
 
 import { crud, useColumns, useGridFormSchema } from './data';
 import Form from './modules/form.vue';
@@ -26,7 +28,9 @@ const [Grid, gridApi] = useVbenVxeGrid({
   formOptions: {
     fieldMappingTime: [['createTime', ['startTime', 'endTime']]],
     schema: useGridFormSchema(),
-    submitOnChange: true,
+    submitOnChange: false,
+    submitOnEnter: true,
+    collapsed: true,
   },
   gridOptions: {
     columns: useColumns(onActionClick),
@@ -100,10 +104,54 @@ function onRefresh() {
 function onCreate() {
   formModalApi.setData({}).open();
 }
+const treeData = ref<any[]>([]);
+
+onMounted(async () => {
+  try {
+    const res = await crudHelper.get<any[]>('system/dept');
+    treeData.value = res || [];
+  } catch (error) {
+    // ignore or optionally log
+    console.warn('加载部门数据失败', error);
+    treeData.value = [];
+  }
+});
+
+function onTreeSelect(item: any) {
+  gridApi.query({ deptId: item?.value?.id || null });
+}
 </script>
 <template>
-  <Page auto-content-height>
+  <ColPage auto-content-height :left-max-width="15">
     <FormModal @success="onRefresh" />
+    <template #left="{ isCollapsed, expand }">
+      <div v-if="isCollapsed" @click="expand">
+        <Tooltip title="点击展开左侧">
+          <Button
+            shape="circle"
+            type="primary"
+            class="flex items-center justify-center"
+          >
+            <template #icon>
+              <IconifyIcon class="text-2xl" icon="bi:arrow-right" />
+            </template>
+          </Button>
+        </Tooltip>
+      </div>
+      <div
+        v-else
+        :style="{ minWidth: '200px' }"
+        class="border-border bg-card mr-2 h-full rounded-[var(--radius)] border p-2"
+      >
+        <Tree
+          :tree-data="treeData"
+          :default-expanded-level="2"
+          value-field="id"
+          label-field="name"
+          @select="onTreeSelect"
+        />
+      </div>
+    </template>
     <Grid table-title="用户列表">
       <template #toolbar-tools>
         <Button type="primary" @click="onCreate">
@@ -112,5 +160,5 @@ function onCreate() {
         </Button>
       </template>
     </Grid>
-  </Page>
+  </ColPage>
 </template>

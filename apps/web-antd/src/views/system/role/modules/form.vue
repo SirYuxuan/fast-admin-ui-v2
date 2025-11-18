@@ -109,6 +109,8 @@ function getNodeClass(node: Recordable<any>) {
             value-field="id"
             label-field="meta.title"
             icon-field="meta.icon"
+            :propagate-select="false"
+            :bubble-select="false"
           >
             <template #node="{ value }">
               <IconifyIcon v-if="value.meta.icon" :icon="value.meta.icon" />

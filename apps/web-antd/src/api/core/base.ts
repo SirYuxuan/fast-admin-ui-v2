@@ -63,8 +63,7 @@ export function useCrud<T = any>(baseUrl: string): CrudInterface<T> {
      * @param data 包含id的更新数据
      */
     async edit(data: Partial<T> & { id: string }) {
-      const { id, ...updateData } = data;
-      return requestClient.put(`${baseUrl}/${id}`, updateData);
+      return requestClient.put(`${baseUrl}`, data);
     },
 
     /**

@@ -122,7 +122,7 @@ export function useColumns<T = SystemRoleApi.SystemRole>(
           },
           {
             code: 'delete', // 默认的删除按钮
-            authCode: 'system:role:delete',
+            authCode: 'system:role:del',
             disabled: (row: SystemRoleApi.SystemRole) => {
               return row.name === '系统管理员';
             },

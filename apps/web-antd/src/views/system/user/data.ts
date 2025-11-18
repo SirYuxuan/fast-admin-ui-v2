@@ -51,6 +51,19 @@ export function useFormSchema(): VbenFormSchema[] {
         .optional(),
     },
     {
+      component: 'ApiTreeSelect',
+      componentProps: {
+        api: () => crudHelper.get('system/dept'),
+        class: 'w-full',
+        labelField: 'name',
+        valueField: 'id',
+        childrenField: 'children',
+      },
+      fieldName: 'deptId',
+      label: '所属部门',
+      rules: 'selectRequired',
+    },
+    {
       component: 'ApiSelect',
       componentProps: {
         api: () => crudHelper.get('system/role/select'),
@@ -185,6 +198,11 @@ export function useColumns<T = ModelType>(
       width: 120,
     },
     {
+      field: 'deptName',
+      title: '部门名称',
+      width: 150,
+    },
+    {
       cellRender: {
         name: 'CellTag',
         options: [
@@ -249,6 +267,7 @@ export function useColumns<T = ModelType>(
       field: 'operation',
       fixed: 'right',
       title: '操作',
+      width: 130,
     },
   ];
 }
